@@ -6,7 +6,7 @@
 /*   By: anamieta <anamieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 15:15:21 by anamieta          #+#    #+#             */
-/*   Updated: 2024/04/21 18:22:02 by anamieta         ###   ########.fr       */
+/*   Updated: 2024/04/21 18:40:07 by anamieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,8 @@ int	main(int argc, char **argv, char **envp)
 			exit(127);
 		}
 		execve(cmd, arg, envp);
+		free(cmd);
+		free_array(arg);
 	}
 	close(fd_pipe[1]);
 	pid2 = fork();
@@ -132,6 +134,8 @@ int	main(int argc, char **argv, char **envp)
 		}
 		i = 0;
 		execve(cmd, arg, envp);
+		free(cmd);
+		free_array(arg);
 	}
 	waitpid(pid1, NULL, 0);
 	waitpid(pid2, &status, 0);

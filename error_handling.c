@@ -6,7 +6,7 @@
 /*   By: anamieta <anamieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 15:08:58 by anamieta          #+#    #+#             */
-/*   Updated: 2024/04/21 15:56:20 by anamieta         ###   ########.fr       */
+/*   Updated: 2024/04/21 19:06:07 by anamieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,3 +54,5 @@ void	free_array(char **array)
 	}
 	free(array);
 }
+
+// echo $?
