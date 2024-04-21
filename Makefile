@@ -18,4 +18,7 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean norm re
+t:
+	./$(NAME) file1 "ls" "wc" file2
+
+.PHONY: all clean fclean norm re 
