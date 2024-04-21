@@ -6,7 +6,7 @@
 /*   By: anamieta <anamieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:51:01 by anamieta          #+#    #+#             */
-/*   Updated: 2024/04/20 20:39:42 by anamieta         ###   ########.fr       */
+/*   Updated: 2024/04/21 15:29:54 by anamieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,66 @@ int	ft_strlen(const char *str)
 	while (str[length] != '\0')
 		length++;
 	return (length);
+}
+
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	char	*constr;
+	size_t	lens1;
+	size_t	lens2;
+	size_t	i;
+	size_t	j;
+
+	i = 0;
+	j = 0;
+	lens1 = ft_strlen(s1);
+	lens2 = ft_strlen(s2);
+	constr = (char *)calloc((lens1 + lens2 + 1), sizeof(char));
+	if (constr == NULL)
+		return (NULL);
+	while (s1[i] != '\0')
+	{
+		constr[i] = s1[i];
+		i++;
+	}
+	while (s2[j] != '\0')
+	{
+		constr[i] = s2[j];
+		i++;
+		j++;
+	}
+	return (constr);
+}
+
+void	ft_putchar(char c)
+{
+	write(1, &c, 1);
+}
+
+void	ft_putstr(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		ft_putchar(str[i]);
+		i++;
+	}
+}
+
+int	ft_strchr(char *s, int c)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == c)
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
 // int	ft_strncmp(const char *s1, const char *s2, size_t n)
@@ -56,34 +116,3 @@ int	ft_strlen(const char *str)
 // 		i++;
 // 	return (i);
 // }
-
-char	*ft_strjoin(char const *s1, char const *s2)
-{
-	char	*constr;
-	size_t	lens1;
-	size_t	lens2;
-	size_t	i;
-	size_t	j;
-
-	i = 0;
-	j = 0;
-	lens1 = ft_strlen(s1);
-	lens2 = ft_strlen(s2);
-	constr = (char *)calloc((lens1 + lens2 + 1), sizeof(char));
-	if (constr == NULL)
-		return (NULL);
-	while (s1[i] != '\0')
-	{
-		constr[i] = s1[i];
-		i++;
-	}
-	while (s2[j] != '\0')
-	{
-		constr[i] = s2[j];
-		i++;
-		j++;
-	}
-	return (constr);
-}
-
-// ft_putstr

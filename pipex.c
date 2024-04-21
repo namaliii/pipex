@@ -6,13 +6,11 @@
 /*   By: anamieta <anamieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 15:15:21 by anamieta          #+#    #+#             */
-/*   Updated: 2024/04/21 14:39:36 by anamieta         ###   ########.fr       */
+/*   Updated: 2024/04/21 18:22:02 by anamieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-#include <unistd.h>
-#include <fcntl.h>
 
 int	path_index(char **envp)
 {
@@ -35,6 +33,8 @@ char	**splitting_paths(char **envp)
 	char	**paths;
 
 	i = path_index(envp);
+	if (i == -1)
+		return (NULL);
 	paths = ft_split(envp[i] + 5 , ':');
 	return (paths);
 }
@@ -50,16 +50,16 @@ char	*find_path(char **envp, char *argv)
 	paths = splitting_paths(envp);
 	while (paths[i])
 	{
-		cmd = ft_strjoin(paths[i], "/");
-		aux = cmd;
-		cmd = ft_strjoin(cmd, argv);
+		aux = ft_strjoin(paths[i], "/");
+		cmd = ft_strjoin(aux, argv);
 		free(aux);
+		write(2, cmd, ft_strlen(cmd));
+		write(2, "\n", 1);
 		if (access(cmd, X_OK) == 0)
 		{
-			write(2, cmd, ft_strlen(cmd));
-			write(2, "\n", 1);
 			return (cmd);
 		}
+		free(cmd);
 		i++;
 	}
 	return (NULL);
@@ -68,88 +68,72 @@ char	*find_path(char **envp, char *argv)
 int	main(int argc, char **argv, char **envp)
 {
 	char	*cmd;
-	char	**arg2;
-	char	**arg3;
+	char	**arg;
 	int		fd_pipe[2];
-	pid_t	pid;
+	pid_t	pid1;
 	pid_t	pid2;
 	int		status;
 	int		fd1;
 	int		fd2;
 	int 	i;
+	int		j;
 
 	i = 0;
-	arg2 = ft_split(argv[2], ' ');
-	arg3 = ft_split(argv[3], ' ');
+	j = 0;
+	cmd = NULL;
 	if (argc != 5)
 	{
-		printf("Wrong number of args"); // change for ft_printf
+		perror("Wrong number of args");
 		return (1);
 	}
 	if (pipe(fd_pipe) == -1)
+		exit(-1);
+	pid1 = fork();
+	if (pid1 < 0)
+		exit(-1);
+	if (pid1 == 0)
 	{
-		perror("pipe");
-		return (1);
-	}
-	pid = fork();
-	if (pid < 0)
-	{
-		perror("fork");
-		return (1);
-	}
-	if (pid == 0)
-	{
+		arg = ft_split(argv[2], ' ');
 		close(fd_pipe[0]);
 		fd1 = open(argv[1], O_RDONLY);
 		if (fd1 == -1)
-		{
-			perror("open");
-			exit(EXIT_FAILURE);
-		}
-		dup2(fd1, STDIN_FILENO);
-		close(fd1);
-		dup2(fd_pipe[1], STDOUT_FILENO);
-		close(fd_pipe[1]);
-		cmd = find_path(envp, argv[2]);
+			error_handling(argv[1]);
+		dup2(fd1, STDIN_FILENO); // duplicating it into stdin
+		close(fd1); // so its not necessary anymore
+		dup2(fd_pipe[1], STDOUT_FILENO); // writing from pipe into stdout
+		close(fd_pipe[1]); //closing pipe write end
+		cmd = find_path(envp, arg[0]);
 		if (cmd == NULL)
 		{
-			printf("Command not found %s\n", argv[2]);
-			exit(EXIT_FAILURE);
+			cmd_error(cmd);
+			exit(127);
 		}
-		while (arg2[i])
-		{
-			execve(cmd, &arg2[i], envp);
-			i++;
-		}
+		execve(cmd, arg, envp);
 	}
 	close(fd_pipe[1]);
 	pid2 = fork();
+	if (pid2 < 0)
+		exit(1);
 	if (pid2 == 0)
 	{
+		arg = ft_split(argv[3], ' ');
 		fd2 = open(argv[4], O_CREAT | O_RDWR | O_TRUNC, 0644);
 		if (fd2 == -1)
-		{
-			perror("open");
-			exit(EXIT_FAILURE);
-		}
-		dup2(fd_pipe[0], STDIN_FILENO);
+			error_handling(argv[4]);
+		dup2(fd_pipe[0], STDIN_FILENO);  //the read end of pipe donates its data to file descriptor 0
 		close(fd_pipe[0]);
-		dup2(fd2, STDOUT_FILENO);
+		dup2(fd2, STDOUT_FILENO); //duplicating from the file2 to stdout
 		close(fd2);
-		cmd = find_path(envp, argv[3]);
+		cmd = find_path(envp, arg[0]);
 		if (cmd == NULL)
 		{
-			printf("Command not found %s\n", argv[2]);
-			exit(EXIT_FAILURE);
+			cmd_error(cmd);
+			exit(127);
 		}
 		i = 0;
-		while (arg3[i])
-		{
-			execve(cmd, &arg3[i], envp);
-			i++;
-		}
+		execve(cmd, arg, envp);
 	}
-	waitpid(pid, NULL, 0);
+	waitpid(pid1, NULL, 0);
 	waitpid(pid2, &status, 0);
 	exit(WEXITSTATUS(status));
 }
