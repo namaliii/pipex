@@ -6,53 +6,68 @@
 /*   By: anamieta <anamieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 15:08:58 by anamieta          #+#    #+#             */
-/*   Updated: 2024/04/21 19:06:07 by anamieta         ###   ########.fr       */
+/*   Updated: 2024/04/23 12:49:38 by anamieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	cmd_error(char *cmd)
+void	args_check(int argc)
 {
-	ft_putstr("zsh: command not found: ");
-	ft_putstr(cmd);
-	ft_putchar('\n');
+	if (argc != 5)
+	{
+		perror("Wrong number of args");
+		exit(1);
+	}
+}
+
+void	pipe_check(int *fd_pipe)
+{
+	if (pipe(fd_pipe) == -1)
+	{
+		perror("pipe");
+		exit(1);
+	}
+}
+
+void	fork_check(pid_t pid)
+{
+	if (pid < 0)
+	{
+		perror("fork");
+		exit(1);
+	}
+}
+
+void	cmd_error(char *cmd, char **arg)
+{
+	ft_putstr_fd("pipex: command not found: ", 2);
+	ft_putstr_fd(cmd, 2);
+	ft_putchar_fd('\n', 2);
+	free(cmd);
+	free_array(arg);
+	exit(127);
 }
 
 void	error_handling(char *file)
 {
 	if (errno == EACCES)
 	{
-		ft_putstr("Permission denied for file: ");
-		ft_putstr(file);
-		ft_putchar('\n');
+		ft_putstr_fd("pipex: permission denied: ", 2);
+		ft_putstr_fd(file, 2);
+		ft_putchar_fd('\n', 2);
 	}
 	else if (errno == ENOENT)
 	{
-		ft_putstr("zsh: no such file or directory: ");
-		ft_putstr(file);
-		ft_putchar('\n');
+		ft_putstr_fd("pipex: no such file or directory: ", 2);
+		ft_putstr_fd(file, 2);
+		ft_putchar_fd('\n', 2);
 	}
 	else
 	{
-		ft_putstr("Failed to open the file: ");
-		ft_putstr(file);
-		ft_putchar('\n');
+		ft_putstr_fd("pipex: failed to open the file: ", 2);
+		ft_putstr_fd(file, 2);
+		ft_putchar_fd('\n', 2);
 	}
 	exit(EXIT_FAILURE);
 }
-
-void	free_array(char **array)
-{
-	int	i;
-
-	i = 0;
-	while (array[i])
-	{
-		free(array[i]);
-		i++;
-	}
-	free(array);
-}
-
-// echo $?

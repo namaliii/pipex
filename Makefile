@@ -1,8 +1,9 @@
 NAME	:= 	pipex
 
-CC		:= 	CC
+CC		:= 	cc
 CFLAGS	:= 	-Wall -Wextra -Werror -g
-SRC		:= 	ft_split.c pipex.c utils.c error_handling.c
+SRC		:= 	error_handling.c ft_calloc.c ft_split.c \
+			utils.c path_utils.c pipex.c
 OBJ		:= 	$(SRC:.c=.o)
 
 all: $(NAME)

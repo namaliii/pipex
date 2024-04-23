@@ -6,7 +6,7 @@
 /*   By: anamieta <anamieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 14:44:38 by anamieta          #+#    #+#             */
-/*   Updated: 2024/04/20 16:26:05 by anamieta         ###   ########.fr       */
+/*   Updated: 2024/04/23 12:25:40 by anamieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static char	*extract_word(char *s, char delimiter)
 	i = 0;
 	while (s[i] != 0 && s[i] != delimiter)
 		i++;
-	word = (char *)malloc(i + 1);
+	word = (char *)ft_calloc(i + 1, sizeof(char));
 	if (word == 0)
 		return (0);
 	i = 0;
@@ -45,11 +45,10 @@ static char	*extract_word(char *s, char delimiter)
 		word[i] = s[i];
 		i++;
 	}
-	word[i] = 0;
 	return (word);
 }
 
-static void	cleanup(char **word_array, int word_index)
+void	cleanup(char **word_array, int word_index)
 {
 	while (word_index >= 0)
 	{
@@ -61,7 +60,7 @@ static void	cleanup(char **word_array, int word_index)
 	word_array = 0;
 }
 
-static int	parse_words(char **words, char *s, char delimiter, int word_index)
+int	parse_words(char **words, char *s, char delimiter, int word_index)
 {
 	while (*s != 0 && *s == delimiter)
 		s++;
@@ -96,19 +95,15 @@ char	**ft_split(char const *s, char c)
 		return (0);
 	word_index = 0;
 	counter = word_count(s, c);
-	words = (char **)malloc((counter + 1) * sizeof(char *));
+	words = (char **)ft_calloc(counter + 1, sizeof(char *));
 	if (words == 0)
 		return (0);
 	if (counter > 0)
 	{
 		word_index = parse_words(words, (char *)s, c, word_index);
 		if (word_index == 0)
-		{
-			free(words);
 			return (0);
-		}
 	}
-	words[counter] = NULL;
 	return (words);
 }
 
