@@ -6,7 +6,7 @@
 /*   By: anamieta <anamieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 15:08:58 by anamieta          #+#    #+#             */
-/*   Updated: 2024/04/23 12:49:38 by anamieta         ###   ########.fr       */
+/*   Updated: 2024/05/02 20:28:15 by anamieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	args_check(int argc)
 {
 	if (argc != 5)
 	{
-		perror("Wrong number of args");
+		ft_putstr_fd("pipex: wrong number of args\n", 2);
 		exit(1);
 	}
 }
@@ -49,7 +49,7 @@ void	cmd_error(char *cmd, char **arg)
 	exit(127);
 }
 
-void	error_handling(char *file)
+void	error_handling(char *file, int exit_code)
 {
 	if (errno == EACCES)
 	{
@@ -69,5 +69,5 @@ void	error_handling(char *file)
 		ft_putstr_fd(file, 2);
 		ft_putchar_fd('\n', 2);
 	}
-	exit(EXIT_FAILURE);
+	exit(exit_code);
 }

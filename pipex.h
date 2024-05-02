@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: anamieta <anamieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/20 13:34:46 by anamieta          #+#    #+#             */
-/*   Updated: 2024/04/23 12:50:19 by anamieta         ###   ########.fr       */
+/*   Created: 2024/05/02 18:27:59 by anamieta          #+#    #+#             */
+/*   Updated: 2024/05/02 20:28:43 by anamieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	args_check(int argc);
 void	pipe_check(int *fd_pipe);
 void	fork_check(pid_t pid);
 void	cmd_error(char *cmd, char **arg);
-void	error_handling(char *file);
+void	error_handling(char *file, int exit_code);
 
 /* Path utils */
 int		path_index(char **envp);

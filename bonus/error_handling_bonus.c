@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error_handling.c                                   :+:      :+:    :+:   */
+/*   error_handling_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anamieta <anamieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 18:14:49 by anamieta          #+#    #+#             */
-/*   Updated: 2024/05/02 18:25:49 by anamieta         ###   ########.fr       */
+/*   Updated: 2024/05/02 21:09:51 by anamieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 
 void	args_error(void)
 {
-	ft_putstr_fd("Wrong number of args\n", 2);
+	ft_putstr_fd("pipex: wrong number of args\n", 2);
 	exit(1);
 }
 
@@ -46,25 +46,33 @@ void	cmd_error(char *cmd, char **arg)
 	exit(127);
 }
 
-void	error_handling(char *file)
+void	error_handling(char *file, int exit_code)
 {
-	if (errno == EACCES)
-	{
-		ft_putstr_fd("pipex: permission denied: ", 2);
-		ft_putstr_fd(file, 2);
-		ft_putchar_fd('\n', 2);
-	}
-	else if (errno == ENOENT)
-	{
-		ft_putstr_fd("pipex: no such file or directory: ", 2);
-		ft_putstr_fd(file, 2);
-		ft_putchar_fd('\n', 2);
-	}
-	else
-	{
-		ft_putstr_fd("pipex: failed to open the file: ", 2);
-		ft_putstr_fd(file, 2);
-		ft_putchar_fd('\n', 2);
-	}
-	exit(EXIT_FAILURE);
+
+	ft_putstr_fd("_pipex: _", 2);
+	ft_putstr_fd(file, 2);
+	ft_putstr_fd(": ", 2);
+	ft_putstr_fd(strerror(errno), 2);
+	ft_putchar_fd('\n', 2);
+
+	// if (errno == EACCES)
+	// {
+	// 	ft_putstr_fd("pipex: permission denied: ", 2);
+	// 	ft_putstr_fd(file, 2);
+	// 	ft_putchar_fd('\n', 2);
+	// 	strerror(errno);
+	// }
+	// else if (errno == ENOENT)
+	// {
+	// 	ft_putstr_fd("pipex: ", 2);
+	// 	ft_putstr_fd(file, 2);
+	// 	ft_putstr_fd(": No such file or directory\n", 2);
+	// }
+	// else
+	// {
+	// 	ft_putstr_fd("pipex: ", 2);
+	// 	ft_putstr_fd(file, 2);
+	// 	ft_putstr_fd(": Failed to open the file\n", 2);
+	// }
+	exit(exit_code);
 }

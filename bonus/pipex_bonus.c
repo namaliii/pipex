@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   pipex_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anamieta <anamieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 18:20:27 by anamieta          #+#    #+#             */
-/*   Updated: 2024/05/02 18:27:04 by anamieta         ###   ########.fr       */
+/*   Updated: 2024/05/02 21:36:27 by anamieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-#include "pipex.h"
+#include "pipex_bonus.h"
 
 static void	execute(char *cmd, char **arg, char **envp)
 {
@@ -107,7 +106,6 @@ int	main(int argc, char **argv, char **envp)
 		cmd = find_path(envp, arg[0]);
 		if (cmd == NULL)
 			cmd_error(cmd, arg);
-
 		dup2(fileout, STDOUT_FILENO);
 		close(fileout);
 		execute(cmd, arg, envp);

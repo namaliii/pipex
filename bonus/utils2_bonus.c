@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils2.c                                           :+:      :+:    :+:   */
+/*   utils2_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anamieta <anamieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 18:29:10 by anamieta          #+#    #+#             */
-/*   Updated: 2024/05/02 18:29:19 by anamieta         ###   ########.fr       */
+/*   Updated: 2024/05/02 21:38:28 by anamieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 
 int	open_file(char *argv, int filetype)
 {
@@ -24,7 +24,7 @@ int	open_file(char *argv, int filetype)
 	else if (filetype == 3)
 		file = open(argv, O_CREAT | O_RDWR | O_APPEND, 0644);
 	if (file == -1)
-		error_handling(argv);
+		error_handling(argv, 0);
 	return (file);
 }
 

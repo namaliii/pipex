@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   gnl.c                                              :+:      :+:    :+:   */
+/*   gnl_bonus.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anamieta <anamieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 18:17:28 by anamieta          #+#    #+#             */
-/*   Updated: 2024/05/02 18:18:13 by anamieta         ###   ########.fr       */
+/*   Updated: 2024/05/02 20:07:28 by anamieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-#include "pipex.h"
+#include "pipex_bonus.h"
 
 static char	*read_and_concatenate(int *bytes_read, int fd, char *line)
 {
@@ -69,7 +68,6 @@ static char	*get_result(char *line, int bytes_read)
 		result[i] = '\n';
 	return (result);
 }
-
 
 static char	*allocate_new_line(char *line, int bytes_read)
 {
