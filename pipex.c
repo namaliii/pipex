@@ -6,7 +6,7 @@
 /*   By: anamieta <anamieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 15:15:21 by anamieta          #+#    #+#             */
-/*   Updated: 2024/04/23 16:05:02 by anamieta         ###   ########.fr       */
+/*   Updated: 2024/05/02 16:46:32 by anamieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	child1(int *fd_pipe, char **argv, char **envp)
 	arg = ft_split(argv[2], ' ');
 	close(fd_pipe[0]);
 	fd1 = open(argv[1], O_RDONLY);
-	if (fd1 == -1)
+	if (fd1 == -1)	
 		error_handling(argv[1]);
 	dup2(fd1, STDIN_FILENO);
 	close(fd1);

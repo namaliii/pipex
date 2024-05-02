@@ -5,14 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: anamieta <anamieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/21 15:08:58 by anamieta          #+#    #+#             */
-/*   Updated: 2024/04/24 15:31:27 by anamieta         ###   ########.fr       */
+/*   Created: 2024/05/02 18:14:49 by anamieta          #+#    #+#             */
+/*   Updated: 2024/05/02 18:15:26 by anamieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	args_error(int argc)
+void	args_error(void)
 {
 	perror("Wrong number of args");
 	exit(1);
