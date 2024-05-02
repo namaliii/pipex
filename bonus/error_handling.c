@@ -6,7 +6,7 @@
 /*   By: anamieta <anamieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 18:14:49 by anamieta          #+#    #+#             */
-/*   Updated: 2024/05/02 18:15:26 by anamieta         ###   ########.fr       */
+/*   Updated: 2024/05/02 18:25:49 by anamieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	args_error(void)
 {
-	perror("Wrong number of args");
+	ft_putstr_fd("Wrong number of args\n", 2);
 	exit(1);
 }
 
