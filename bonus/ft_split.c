@@ -6,7 +6,7 @@
 /*   By: anamieta <anamieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 18:16:12 by anamieta          #+#    #+#             */
-/*   Updated: 2024/05/02 18:16:50 by anamieta         ###   ########.fr       */
+/*   Updated: 2024/05/02 18:17:12 by anamieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,26 @@ int	parse_words(char **words, char *s, char delimiter, int word_index)
 			s++;
 	}
 	return (word_index);
+}
+
+char	**ft_split(char const *s, char c)
+{
+	int		counter;
+	char	**words;
+	int		word_index;
+
+	if (s == 0)
+		return (0);
+	word_index = 0;
+	counter = word_count(s, c);
+	words = (char **)ft_calloc(counter + 1, sizeof(char *));
+	if (words == 0)
+		return (0);
+	if (counter > 0)
+	{
+		word_index = parse_words(words, (char *)s, c, word_index);
+		if (word_index == 0)
+			return (0);
+	}
+	return (words);
 }
