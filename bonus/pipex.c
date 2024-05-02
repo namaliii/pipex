@@ -6,7 +6,7 @@
 /*   By: anamieta <anamieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 18:20:27 by anamieta          #+#    #+#             */
-/*   Updated: 2024/05/02 18:20:48 by anamieta         ###   ########.fr       */
+/*   Updated: 2024/05/02 18:27:04 by anamieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,7 @@ void	child(char *argv, char **envp, bool last_child)
 	pid_t	pid;
 	char	*cmd;
 
-
-	// pipe_check(fd_pipe);
-	if (pipe(fd_pipe) == -1)
-	{
-		perror("pipe");
-		exit(1);
-	}
+	pipe_check(fd_pipe);
 	pid = fork();
 	fork_check(pid);
 	arg = ft_split(argv, ' ');
@@ -64,9 +58,59 @@ void	child(char *argv, char **envp, bool last_child)
 	else
 	{
 		close(fd_pipe[1]);
-
 		dup2(fd_pipe[0], STDIN_FILENO);
 		close(fd_pipe[0]);
 		last_child_status(pid, last_child);
 	}
+}
+
+static void	helper(int argc, char **argv, char **envp, int *fileout)
+{
+	int		i;
+	int		filein;
+
+	if (ft_strncmp(argv[1], "here_doc", ft_strlen(argv[1])) == 0)
+	{
+		i = 3;
+		*fileout = open_file(argv[argc - 1], 3);
+		here_doc(argv[2], argc);
+	}
+	else
+	{
+		i = 2;
+		filein = open_file(argv[1], 1);
+		*fileout = open_file(argv[argc - 1], 2);
+		dup2(filein, STDIN_FILENO);
+		close(filein);
+	}
+	while (i < argc - 2)
+	{
+		if (i == argc - 3)
+			child(argv[i], envp, true);
+		else
+			child(argv[i], envp, false);
+		i++;
+	}
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	int		fileout;
+	char	*cmd;
+	char	**arg;
+
+	arg = NULL;
+	if (argc >= 5)
+	{
+		helper(argc, argv, envp, &fileout);
+		arg = ft_split(argv[argc - 2], ' ');
+		cmd = find_path(envp, arg[0]);
+		if (cmd == NULL)
+			cmd_error(cmd, arg);
+
+		dup2(fileout, STDOUT_FILENO);
+		close(fileout);
+		execute(cmd, arg, envp);
+	}
+	args_error();
 }
