@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: anamieta <anamieta@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/05/03 21:45:36 by anamieta          #+#    #+#              #
+#    Updated: 2024/05/03 22:10:05 by anamieta         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME	:= 	pipex
 
 CC		:= 	cc
@@ -33,6 +45,6 @@ t: $(NAME)
 	./$(NAME) file1 "ls" "wc -l" file2
 
 tb: bonus
-	./$(NAME) here_doc . "cat" "grep make" "wc -l" file2
+	./$(NAME) here_doc . "cat" "grep make" "grep ma" "grep ke" file2
 
 .PHONY: all clean fclean norm re

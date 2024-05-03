@@ -6,7 +6,7 @@
 /*   By: anamieta <anamieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 18:14:49 by anamieta          #+#    #+#             */
-/*   Updated: 2024/05/03 16:18:23 by anamieta         ###   ########.fr       */
+/*   Updated: 2024/05/03 22:23:54 by anamieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,7 @@ void	cmd_error(char *cmd, char **arg)
 {
 	if (cmd == NULL)
 	{
-		ft_putstr_fd("pipex: command not found: ", 2);
-		ft_putstr_fd(cmd, 2);
-		ft_putchar_fd('\n', 2);
+		ft_putstr_fd("pipex: command not found/n", 2);
 		free(cmd);
 		free_array(arg);
 		exit(127);
@@ -50,11 +48,23 @@ void	cmd_error(char *cmd, char **arg)
 
 void	error_handling(char *file, int exit_code)
 {
-	ft_putstr_fd("pipex: ", 2);
-	ft_putstr_fd(file, 2);
-	ft_putstr_fd(": ", 2);
-	ft_putstr_fd(strerror(errno), 2);
-	ft_putchar_fd('\n', 2);
-	close(*file);
+	if (errno == EACCES)
+	{
+		ft_putstr_fd("pipex: permission denied: ", 2);
+		ft_putstr_fd(file, 2);
+		ft_putchar_fd('\n', 2);
+	}
+	else if (errno == ENOENT)
+	{
+		ft_putstr_fd("pipex: no such file or directory: ", 2);
+		ft_putstr_fd(file, 2);
+		ft_putchar_fd('\n', 2);
+	}
+	else
+	{
+		ft_putstr_fd("pipex: failed to open the file: ", 2);
+		ft_putstr_fd(file, 2);
+		ft_putchar_fd('\n', 2);
+	}
 	exit(exit_code);
 }

@@ -6,24 +6,13 @@
 /*   By: anamieta <anamieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 18:20:27 by anamieta          #+#    #+#             */
-/*   Updated: 2024/05/03 18:06:49 by anamieta         ###   ########.fr       */
+/*   Updated: 2024/05/03 22:15:47 by anamieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-static void	last_child_status(pid_t pid, bool last_child)
-{
-	int	status;
-
-	status = 0;
-	if (last_child)
-		waitpid(pid, &status, 0);
-	else
-		waitpid(pid, NULL, 0);
-}
-
-void	child(char *argv, char **envp, bool last_child)
+void	child(char *argv, char **envp)
 {
 	char	**arg;
 	int		fd_pipe[2];
@@ -36,7 +25,6 @@ void	child(char *argv, char **envp, bool last_child)
 	fork_check(pid);
 	arg = ft_split(argv, ' ');
 	cmd = find_path(envp, arg[0]);
-	cmd_error(cmd, arg);
 	if (pid == 0)
 	{
 		close(fd_pipe[0]);
@@ -48,22 +36,13 @@ void	child(char *argv, char **envp, bool last_child)
 		close(fd_pipe[1]);
 		dup2(fd_pipe[0], STDIN_FILENO);
 		close(fd_pipe[0]);
-		last_child_status(pid, last_child);
 	}
-}
-
-void	last_child_check(int argc, char **argv, char **envp, int i)
-{
-	if (i == argc - 3)
-		child(argv[i], envp, true);
-	else
-		child(argv[i], envp, false);
 }
 
 static void	helper(int argc, char **argv, char **envp, int *fileout)
 {
-	int		i;
-	int		filein;
+	int	i;
+	int	filein;
 
 	if (ft_strncmp(argv[1], "here_doc", ft_strlen(argv[1])) == 0)
 	{
@@ -81,7 +60,7 @@ static void	helper(int argc, char **argv, char **envp, int *fileout)
 	}
 	while (i < argc - 2)
 	{
-		last_child_check(argc, argv, envp, i);
+		child(argv[i], envp);
 		i++;
 	}
 }

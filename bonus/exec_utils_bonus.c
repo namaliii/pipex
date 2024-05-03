@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utiils.c                                           :+:      :+:    :+:   */
+/*   exec_utils_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anamieta <anamieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 16:03:25 by anamieta          #+#    #+#             */
-/*   Updated: 2024/05/03 16:17:18 by anamieta         ###   ########.fr       */
+/*   Updated: 2024/05/03 21:49:13 by anamieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@ void	execute(char *cmd, char **arg, char **envp)
 	{
 		free(cmd);
 		free_array(arg);
-		perror("pipex");
+		ft_putstr_fd("pipex: ", 2);
+		ft_putstr_fd("command not found", 2);
+		ft_putchar_fd('\n', 2);
 		exit(1);
 	}
 }

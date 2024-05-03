@@ -6,7 +6,7 @@
 /*   By: anamieta <anamieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 14:27:06 by anamieta          #+#    #+#             */
-/*   Updated: 2024/04/23 12:47:28 by anamieta         ###   ########.fr       */
+/*   Updated: 2024/05/03 20:47:53 by anamieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,11 @@ char	*find_path(char **envp, char *argv)
 	char	*aux;
 	int		i;
 
+	if (access(argv, X_OK) == 0)
+	{
+		cmd = argv;
+		return (cmd);
+	}
 	i = 0;
 	paths = splitting_paths(envp);
 	while (paths[i])
