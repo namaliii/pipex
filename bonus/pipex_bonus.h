@@ -37,7 +37,7 @@ void	*ft_calloc(size_t count, size_t size);
 
 /* Error handling */
 void	args_error(void);
-void	pipe_check(int *fd_pipe);
+void	pipe_error(int *fd_pipe);
 void	fork_check(pid_t pid);
 void	cmd_error(char *cmd, char **arg);
 void	error_handling(char *file, int exit_code);
@@ -53,5 +53,6 @@ char	*get_next_line(int fd);
 char	*ft_strchr(const char *s, int c);
 int		open_file(char *argv, int filetype);
 void	here_doc(char *limiter, int argc);
+void	execute(char *cmd, char **arg, char **envp);
 
 #endif

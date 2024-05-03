@@ -6,24 +6,11 @@
 /*   By: anamieta <anamieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 18:28:34 by anamieta          #+#    #+#             */
-/*   Updated: 2024/05/02 20:05:25 by anamieta         ###   ########.fr       */
+/*   Updated: 2024/05/03 16:03:21 by anamieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
-
-void	free_array(char **array)
-{
-	int	i;
-
-	i = 0;
-	while (array[i])
-	{
-		free(array[i]);
-		i++;
-	}
-	free(array);
-}
 
 int	ft_strlen(const char *str)
 {

@@ -6,7 +6,7 @@
 /*   By: anamieta <anamieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 18:17:28 by anamieta          #+#    #+#             */
-/*   Updated: 2024/05/02 20:07:28 by anamieta         ###   ########.fr       */
+/*   Updated: 2024/05/03 14:55:10 by anamieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,10 @@ char	*get_next_line(int fd)
 		return (NULL);
 	bytes_read = get_line_len(line);
 	result = get_result(line, bytes_read);
+	if (!result)
+		return (NULL);
 	line = allocate_new_line(line, bytes_read);
+	if (!line)
+		return (NULL);
 	return (result);
 }

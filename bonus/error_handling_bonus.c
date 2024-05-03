@@ -6,7 +6,7 @@
 /*   By: anamieta <anamieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 18:14:49 by anamieta          #+#    #+#             */
-/*   Updated: 2024/05/02 21:09:51 by anamieta         ###   ########.fr       */
+/*   Updated: 2024/05/03 16:18:23 by anamieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,12 @@ void	args_error(void)
 	exit(1);
 }
 
-void	pipe_check(int *fd_pipe)
+void	pipe_error(int *fd_pipe)
 {
-	if (pipe(fd_pipe) == -1)
-	{
-		perror("pipe");
-		exit(1);
-	}
+	perror("pipe");
+	close(fd_pipe[0]);
+	close(fd_pipe[1]);
+	exit(1);
 }
 
 void	fork_check(pid_t pid)
@@ -38,41 +37,24 @@ void	fork_check(pid_t pid)
 
 void	cmd_error(char *cmd, char **arg)
 {
-	ft_putstr_fd("pipex: command not found: ", 2);
-	ft_putstr_fd(cmd, 2);
-	ft_putchar_fd('\n', 2);
-	free(cmd);
-	free_array(arg);
-	exit(127);
+	if (cmd == NULL)
+	{
+		ft_putstr_fd("pipex: command not found: ", 2);
+		ft_putstr_fd(cmd, 2);
+		ft_putchar_fd('\n', 2);
+		free(cmd);
+		free_array(arg);
+		exit(127);
+	}
 }
 
 void	error_handling(char *file, int exit_code)
 {
-
-	ft_putstr_fd("_pipex: _", 2);
+	ft_putstr_fd("pipex: ", 2);
 	ft_putstr_fd(file, 2);
 	ft_putstr_fd(": ", 2);
 	ft_putstr_fd(strerror(errno), 2);
 	ft_putchar_fd('\n', 2);
-
-	// if (errno == EACCES)
-	// {
-	// 	ft_putstr_fd("pipex: permission denied: ", 2);
-	// 	ft_putstr_fd(file, 2);
-	// 	ft_putchar_fd('\n', 2);
-	// 	strerror(errno);
-	// }
-	// else if (errno == ENOENT)
-	// {
-	// 	ft_putstr_fd("pipex: ", 2);
-	// 	ft_putstr_fd(file, 2);
-	// 	ft_putstr_fd(": No such file or directory\n", 2);
-	// }
-	// else
-	// {
-	// 	ft_putstr_fd("pipex: ", 2);
-	// 	ft_putstr_fd(file, 2);
-	// 	ft_putstr_fd(": Failed to open the file\n", 2);
-	// }
+	close(*file);
 	exit(exit_code);
 }
