@@ -6,7 +6,7 @@
 /*   By: anamieta <anamieta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 18:20:27 by anamieta          #+#    #+#             */
-/*   Updated: 2024/05/03 16:24:24 by anamieta         ###   ########.fr       */
+/*   Updated: 2024/05/03 18:06:49 by anamieta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ static void	helper(int argc, char **argv, char **envp, int *fileout)
 	{
 		i = 3;
 		*fileout = open_file(argv[argc - 1], 3);
-		close(*fileout);
 		here_doc(argv[2], argc);
 	}
 	else
@@ -79,7 +78,6 @@ static void	helper(int argc, char **argv, char **envp, int *fileout)
 		dup2(filein, STDIN_FILENO);
 		close(filein);
 		*fileout = open_file(argv[argc - 1], 2);
-		close(*fileout);
 	}
 	while (i < argc - 2)
 	{
